@@ -1,59 +1,42 @@
 import "./App.css";
 
-import { Component } from "react";
+import { Component, useState } from "react";
 
-class Task extends Component {
+const Task = (props) => {
 
-	constructor(props) {
-        super(props);
-		this.state = {
-			counter: this.props.counter
+	const [counter, setCounter] = useState(props.counter);
+
+	const incCounter = () => {
+		if (counter < 5) {
+		  setCounter(counter => counter + 1)
 		}
-    }
+	  }
 
-    NextNumber = () => {
-		if (this.state.counter < 5) {
-			this.setState(state => ({
-				counter: state.counter + 1
-			}))
-		}
-	}
-
-	PreviousNumber = () => {
-		if (this.state.counter > -5) {
-			this.setState(state => ({
-				counter: state.counter - 1
-			}))
+	const decCounter = () => {
+		if (counter > -5) {
+			setCounter(counter => counter - 1)
 		}
 	}
 
-	RandomNumber = () => {
-		this.setState({
-			counter: Math.round(Math.random()*10)
-		})
+	function rndCounter() {
+		setCounter( Math.floor( Math.random() * (5 - - 5) + - 5 ) );
 	}
 
-	ResetNumber = () => {
-		this.setState({
-			counter: this.props.counter
-		})
-	}
+	const resetCounter = () => {
+		setCounter(props.counter)
+	  }
 
-    render() {
-		const {counter} = this.state;
-
-        return (
-            <div className="app">
-                <div className="counter">{counter}</div>
-                <div className="controls">
-                    <button onClick={this.NextNumber}>INC</button>
-                    <button onClick={this.PreviousNumber}>DEC</button>
-                    <button onClick={this.RandomNumber}>RND</button>
-                    <button onClick={this.ResetNumber}>RESET</button>
-                </div>
-            </div>
-        );
-    }
+	return (
+		<div className="app">
+			<div className="counter">{counter}</div>
+			<div className="controls">
+				<button onClick={incCounter}>INC</button>
+				<button onClick={decCounter}>DEC</button>
+				<button onClick={rndCounter}>RND</button>
+				<button onClick={resetCounter}>RESET</button>
+			</div>
+		</div>
+	);
 }
 
 // 1) Начальное значение счетчика должно передаваться через props
@@ -64,7 +47,7 @@ class Task extends Component {
 function App() {
     return (
         <div className="App">
-            <Task counter = {0}/>
+            <Task counter={0}/>
         </div>
     );
 }
